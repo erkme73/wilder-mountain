@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wilder Mountain Community Hub</title>
+    <style>
+        :root {
+            --primary: #1e3a8a; /* Deep mountain slate blue */
+            --primary-dark: #0f172a;
+            --accent: #ca8a04; /* Alert / Legal accent yellow-gold */
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+        }
+
+        .btn-alert {
+            background-color: var(--accent);
+            color: var(--primary-dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
+                        url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Notice Banner */
+        .alert-banner {
+            background-color: #fef3c7;
+            border-left: 5px solid var(--accent);
+            color: #78350f;
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .alert-banner strong {
+            display: block;
+            font-size: 1.05rem;
+        }
+
+        .btn-secondary {
+            background-color: #78350f;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Content Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            border-bottom: 3px solid var(--primary);
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        /* Legal / Case Cards */
+        .legal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .legal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        .legal-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .badge {
+            background-color: #e2e8f0;
+            color: var(--text-dark);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.active {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .doc-list {
+            margin-top: 1rem;
+            list-style: none;
+        }
+
+        .doc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-list a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .doc-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #334155;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .nav-container { flex-direction: column; gap: 1rem; }
+            nav a { margin: 0 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">WILDER MOUNTAIN <span>COMMUNITY</span></a>
+            <nav>
+                <a href="#about">Welcome</a>
+                <a href="#updates">Community Updates</a>
+                <a href="#legal" class="btn-alert">Legal Information</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Wilder Mountain</h1>
+            <p>A dedicated community portal keeping property owners and residents informed, connected, and up-to-date on ongoing mountain affairs.</p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Critical Notice Banner -->
+        <div class="alert-banner">
+            <div>
+                <strong>Ongoing Legal Matters Notice</strong>
+                <span>Stay informed regarding active legal proceedings, court filings, and community updates.</span>
+            </div>
+            <a href="#legal" class="btn-secondary">View Legal Section</a>
+        </div>
+
+        <!-- Section 1: Welcome & Community Overview -->
+        <section id="about">
+            <h2 class="section-title">Community Overview</h2>
+            <p>This portal was created to ensure open communication and transparent record-keeping for all Wilder Mountain residents. Here you will find official updates regarding road maintenance, community governance, and legal developments affecting our property owners.</p>
+        </section>
+
+        <!-- Section 2: Community News & Updates -->
+        <section id="updates">
+            <h2 class="section-title">Latest Updates</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-date">August 2026</div>
+                    <h3>Website Launch & Portal Notice</h3>
+                    <p>The wilder-mountain.org community site is officially online. Bookmark this address for direct access to official public notices and case filings.</p>
+                </div>
+                <div class="news-card">
+                    <div class="news-date">Recent Notice</div>
+                    <h3>Road Maintenance & Access</h3>
+                    <p>Reminders and updates regarding seasonal road upkeep, rights-of-way, and easement discussions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Legal & Litigation Section -->
+        <section id="legal">
+            <h2 class="section-title">Legal Information & Litigation Updates</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                Official updates and public documentation regarding ongoing legal matters relevant to Wilder Mountain residents.
+            </p>
+
+            <!-- Legal Case Card 1 -->
+            <div class="legal-card">
+                <div class="legal-header">
+                    <div>
+                        <div class="legal-title">Active Proceedings & Governance Review</div>
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Status: Ongoing</span>
+                    </div>
+                    <span class="badge active">Active Case</span>
+                </div>
+                <p>Overview of current legal actions, court dates, and legal counsel communications involving community interests.</p>
+                
+                <ul class="doc-list">
+                    <li>📄 <strong>Key Documents:</strong></li>
+                    <li>• <a href="#" onclick="alert('Link your PDF document here!'); return false;">Download Public Filing Summary (PDF)</a></li>
+                    <li>• <a href="#" onclick="alert('Link your court notice here!'); return false;">View Recent Court Minute Entry</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal Transparency Note -->
+            <div style="background-color: #f1f5f9; padding: 1rem; border-radius: 6px; font-size: 0.85rem; color: var(--text-muted);">
+                <strong>Disclaimer:</strong> Content posted in this section is provided for informational purposes to Wilder Mountain property owners and does not constitute formal legal advice.
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Wilder Mountain Resident Information Portal • wilder-mountain.org</p>
+        <p><a href="#legal">Legal Section</a> | <a href="#updates">Community Updates</a></p>
+    </footer>
+
+</body>
+</html>
