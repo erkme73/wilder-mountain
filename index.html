@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wilder Mountain Resident Portal & Legal Action</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #0f172a;
+            --accent: #ca8a04;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --success: #15803d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+
+        header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: #fff; text-decoration: none; }
+        .logo span { color: var(--accent); }
+
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        /* Auth Card */
+        .auth-card, .portal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h2 { color: var(--primary-dark); font-size: 1.5rem; }
+
+        /* Form Controls */
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-dark); }
+        input[type="text"], input[type="email"], input[type="tel"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn:hover { background-color: var(--primary-dark); }
+        .btn-accent { background-color: var(--accent); color: var(--primary-dark); }
+
+        /* Radio Choice Options */
+        .choice-box {
+            background-color: #f1f5f9;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .radio-option input[type="radio"] { margin-top: 0.25rem; width: 1.2rem; height: 1.2rem; }
+
+        .hidden { display: none; }
+        
+        .status-badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">WILDER MOUNTAIN <span>LOT OWNER PORTAL</span></a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- STEP 1: Registration / Login Screen -->
+        <div id="auth-section" class="auth-card">
+            <div class="card-header">
+                <h2>Lot Owner Verification & Sign-In</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Please sign in or register to access confidential legal options and record your choices.</p>
+            </div>
+
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="owner-name">Full Name (as registered on deed)</label>
+                    <input type="text" id="owner-name" placeholder="John & Jane Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="owner-lots">Lot Number(s) Owned</label>
+                    <input type="text" id="owner-lots" placeholder="e.g., 104, 105, 212" required>
+                    <small style="color: var(--text-muted);">If you own multiple lots, separate them with commas.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="owner-contact">Phone Number or Email Address</label>
+                    <input type="text" id="owner-contact" placeholder="owner@example.com or (931) 555-0199" required>
+                </div>
+
+                <button type="submit" class="btn">Send Verification Code</button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Main Dashboard & Legal Choice Form (Visible After Verification) -->
+        <div id="dashboard-section" class="portal-card hidden">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2>Legal Authorization & Preferences</h2>
+                    <p style="color: var(--text-muted);">Registered Lots: <strong id="user-lots-display">--</strong></p>
+                </div>
+                <span class="status-badge">Verified Owner Session</span>
+            </div>
+
+            <form id="preference-form" onsubmit="savePreferences(event)">
+                
+                <div class="choice-box">
+                    <h3 style="color: var(--primary-dark); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                        Road Infrastructure & Award Fund Authorization
+                    </h3>
+                    <p style="font-size: 0.95rem; color: var(--text-dark);">
+                        In the event of litigation settlement or court-awarded funds, do you agree to direct any award funds directly toward development roadways via the <strong>Wilder Mountain Road Maintenance Committee</strong>?
+                    </p>
+
+                    <label class="radio-option">
+                        <input type="radio" name="award_direct" value="YES" required>
+                        <div>
+                            <strong>YES</strong> — I authorize directing award funds to development roadways via the Wilder Mountain Road Maintenance Committee.
+                        </div>
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio" name="award_direct" value="NO">
+                        <div>
+                            <strong>NO</strong> — I do not agree to direct award funds to the Road Maintenance Committee.
+                        </div>
+                    </label>
+                </div>
+
+                <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <button type="submit" class="btn btn-accent">Save My Selection</button>
+                    <span id="save-status" style="color: var(--success); font-weight: 600;"></span>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        // Client-side Interface Simulation
+        function handleLogin(e) {
+            e.preventDefault();
+            const lots = document.getElementById('owner-lots').value;
+            
+            // In full implementation, Firebase/Supabase sends OTP SMS/Email code here.
+            alert("Verification code sent! (Simulating instant successful verification)");
+            
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('dashboard-section').classList.remove('hidden');
+            document.getElementById('user-lots-display').innerText = lots;
+        }
+
+        function savePreferences(e) {
+            e.preventDefault();
+            const selection = document.querySelector('input[name="award_direct"]:checked').value;
+            
+            // In full implementation, saves payload to Cloud Database linked to Lot # and User ID.
+            document.getElementById('save-status').innerText = "✓ Preferences saved successfully for Lot(s) " + document.getElementById('user-lots-display').innerText;
+        }
+    </script>
+</body>
+</html>
